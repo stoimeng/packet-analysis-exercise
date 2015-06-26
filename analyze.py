@@ -8,7 +8,14 @@ logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
 
 from scapy.all import *
 
-GOOGLE_IP_ADDRESSES = ['64.233.169.105', '64.233.169.106', '64.233.169.147', '64.233.169.99', '64.233.169.103', '64.233.169.104']
+GOOGLE_IP_ADDRESSES = [
+			'64.233.169.105',
+			'64.233.169.106',
+			'64.233.169.147',
+			'64.233.169.99',
+			'64.233.169.103',
+			'64.233.169.104'
+		]
 GOOGLE_CONNECTION_INIT_SOURCE_PORTS = set()
 DNS_QUERY_DOMAINS = Counter()
 

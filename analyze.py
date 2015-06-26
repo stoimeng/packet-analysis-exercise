@@ -8,6 +8,11 @@ logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
 
 from scapy.all import *
 
+TCP_FLAG_SYN = 2
+TCP_PORT_HTTP = 80
+DNS_QUERY = 0
+DNS_QUESTION_TYPE = 1
+
 GOOGLE_IP_ADDRESSES = [
 			'64.233.169.105',
 			'64.233.169.106',
@@ -23,7 +28,7 @@ def is_google_connection_init(packet):
 	if packet.haslayer(TCP):
 		ip = packet[IP]
 		tcp = ip[TCP]
-		if tcp.flags == 2 and tcp.dport == 80 and ip.dst in GOOGLE_IP_ADDRESSES:
+		if tcp.flags == TCP_FLAG_SYN and tcp.dport == TCP_PORT_HTTP and ip.dst in GOOGLE_IP_ADDRESSES:
 			return True
 
 	return False
@@ -33,7 +38,7 @@ def handle_google_connection_init(packet):
 		GOOGLE_CONNECTION_INIT_SOURCE_PORTS.add(packet[TCP].sport)
 
 def is_dns_query_a(packet):
-	if packet.haslayer(DNSQR) and packet[DNSQR].qtype == 1 and packet[DNS].qr == 0:
+	if packet.haslayer(DNSQR) and packet[DNSQR].qtype == DNS_QUESTION_TYPE and packet[DNS].qr == DNS_QUERY:
 			return True
 
 	return False

@@ -3,15 +3,50 @@
 import logging
 logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
 
-from scapy.all import *
+from scapy.all import rdpcap, Ether
 from twisted.internet import reactor, protocol, defer
 from twisted.protocols import basic
-from analysis import handle_packet, print_summary
+from packet_analysis import handle_packet, print_summary
+
+PACKET_DATA_PROTOCOL_CLIENT_CONFIRM = 'OK'
+
+class PacketDataServer(basic.Int16StringReceiver):
+    def connectionMade(self):
+        if not self._sendPacket():
+            self.transport.loseConnection()
+
+    def stringReceived(self, data):
+        if data != PACKET_DATA_PROTOCOL_CLIENT_CONFIRM:
+            print 'WARNING: protocol violation by client.'
+            self.transport.loseConnection()
+        elif not self._sendPacket():
+                self.transport.loseConnection()
+
+    def _sendPacket(self):
+        packet = self._getPacket()
+        if packet is None:
+            return False
+
+        packet_string = str(packet)
+        self.sendString(packet_string)
+        return True
+
+    def _getPacket(self):
+        data = self.factory.data
+        if data:
+            return data.pop(0)
+        return None
+
+class PacketDataServerFactory(protocol.ServerFactory):
+    protocol = PacketDataServer
+
+    def __init__(self, data):
+        self.data = data
 
 class PacketDataClient(basic.Int16StringReceiver):
     def stringReceived(self, data):
         handle_packet(Ether(data))
-        self.sendString('OK')
+        self.sendString(PACKET_DATA_PROTOCOL_CLIENT_CONFIRM)
 
 class PacketDataClientFactory(protocol.ClientFactory):
     protocol = PacketDataClient
@@ -48,20 +83,15 @@ def _clients_done(result):
     reactor.stop()
 
 def run(address, port, connections):
+    data = rdpcap('capture.pcap')
+
+    factory = PacketDataServerFactory(data)
+    reactor.listenTCP(port, factory)
+
     dfr = defer.Deferred()
     dfr.addCallback(_clients_done)
-
     factory = PacketDataClientFactory(connections, dfr)
-
     for _ in xrange(0, connections):
         reactor.connectTCP(address, port, factory)
 
     reactor.run()
-
-    print_summary()
-
-def main():
-    run('localhost', 8000, 10)
-
-if __name__ == '__main__':
-    main()

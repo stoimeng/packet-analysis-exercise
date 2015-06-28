@@ -12,6 +12,11 @@ TODO:
 - obfuscation
 - others / advanced
 
+Used tehnologies:
+- Python 2.7.3
+- Twisted 15.2.1
+- scapy 2.3.1
+
 Running the main.py currently produces:
 
     List of TCP source ports from connections initiated to www.google.com:80

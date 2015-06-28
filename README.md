@@ -13,25 +13,25 @@ TODO:
 
 Running the main.py currently produces:
 
->List of TCP source ports from connections initiated to www.google.com:80
->========================================================================
->34927
->34929
->34931
->42026
->42029
->42036
->48977
->48979
->48981
->48985
->48994
->
->Domain name distribution in DNS resolution queries
->==================================================
->name                 | count | percentage of total
->--------------------------------------------------
->www.google.com       | 36    | 92.31%
->www.google.bg        | 2     | 5.13%
->daisy.ubuntu.com     | 1     | 2.56%
+\List of TCP source ports from connections initiated to www.google.com:80
+\========================================================================
+34927
+34929
+34931
+42026
+42029
+42036
+48977
+48979
+48981
+48985
+48994
+
+\Domain name distribution in DNS resolution queries
+\==================================================
+\name                 | count | percentage of total
+\--------------------------------------------------
+www.google.com       | 36    | 92.31%
+www.google.bg        | 2     | 5.13%
+daisy.ubuntu.com     | 1     | 2.56%
 

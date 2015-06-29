@@ -1,0 +1,3 @@
+[submodule "pyobfuscate"]
+	path = pyobfuscate
+	url = https://github.com/astrand/pyobfuscate.git

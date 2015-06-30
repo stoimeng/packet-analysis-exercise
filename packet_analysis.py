@@ -8,6 +8,8 @@ logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
 
 from scapy.all import *
 
+__all__ = ['handle_packet', 'print_summary']
+
 TCP_FLAG_SYN = 2
 TCP_PORT_HTTP = 80
 DNS_QUERY = 0

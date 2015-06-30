@@ -8,6 +8,8 @@ from twisted.internet import reactor, protocol, defer
 from twisted.protocols import basic
 from packet_analysis import handle_packet, print_summary
 
+__all__ = ['run']
+
 PACKET_DATA_PROTOCOL_CLIENT_CONFIRM = 'OK'
 
 class PacketDataServer(basic.Int16StringReceiver):

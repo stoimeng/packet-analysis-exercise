@@ -19,6 +19,7 @@ Used tehnologies:
 - pyobfuscate (as a submodule)
 
 Running the main.py currently produces:
+
     List of TCP source ports from connections initiated to www.google.com:80
     ========================================================================
     34927
@@ -42,6 +43,8 @@ Running the main.py currently produces:
     daisy.ubuntu.com     | 1     | 2.56%
 
 Running obfuscate.py produces a sub-directory with the main solution files in it obfuscated, e.g.:
+
+    #!/usr/bin/env python
     if 64 - 64: i11iIiiIii
     from packet_data import run
     from packet_analysis import print_summary

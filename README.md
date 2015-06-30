@@ -3,7 +3,7 @@
 Features:
 - preliminary 'capture.pcap' - ran capture for only a short time
 - collecting information for source ports in connections initiated to www.google.com:80
-- collection information for domain names in DNS "A" queries
+- collection of information for domain names in DNS "A" queries
 - formatted output of summary of the information
 - simulation of packet data collection from multiple IO streams and async handling of streams
 - obfuscation

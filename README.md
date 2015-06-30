@@ -42,7 +42,6 @@ Running the main.py currently produces:
     daisy.ubuntu.com     | 1     | 2.56%
 
 Running obfuscate.py produces a sub-directory with the main solution files in it obfuscated, e.g.:
-    #!/usr/bin/env python
     if 64 - 64: i11iIiiIii
     from packet_data import run
     from packet_analysis import print_summary
@@ -58,5 +57,3 @@ Running obfuscate.py produces a sub-directory with the main solution files in it
     if __name__ == '__main__' :
      o0OO00 ( )
     # dd678faae9ac167bc83abf78e5cb2f3f0688d3a3
-
-

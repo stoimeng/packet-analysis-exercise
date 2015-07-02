@@ -13,12 +13,32 @@ __all__ = ['init', 'handle_packet', 'print_summary']
 TCP_FLAG_SYN = 2
 TCP_PORT_HTTP = 80
 DNS_QUERY = 0
+DNS_RESPONSE = 1
 DNS_QUESTION_TYPE = 1
+DNS_RESPONSE_TYPE = 1
+
+GOOGLE_NAME = "www.google.com."
 
 INSPECT_GOOGLE_IP = True
-GOOGLE_IP_ADDRESSES = []
+GOOGLE_IP_ADDRESSES = set()
 GOOGLE_CONNECTION_INIT_SOURCE_PORTS = set()
 DNS_QUERY_DOMAINS = Counter()
+
+def is_dns_response_a(packet):
+    if (
+            packet.haslayer(DNSRR) and
+            packet[DNS].qr == DNS_RESPONSE
+            ):
+        return True
+
+    return False
+
+def handle_dns_response_a(packet):
+    if is_dns_response_a(packet):
+        for rr in packet[DNS].an:
+            if rr.type == DNS_RESPONSE_TYPE and rr.rrname == GOOGLE_NAME:
+                GOOGLE_IP_ADDRESSES.add(rr.rdata)
+                print GOOGLE_IP_ADDRESSES
 
 def is_google_connection_init(packet):
     if packet.haslayer(TCP):
@@ -54,6 +74,8 @@ def handle_dns_query_a(packet):
         DNS_QUERY_DOMAINS[domain] += 1
 
 def handle_packet(packet):
+    if INSPECT_GOOGLE_IP:
+        handle_dns_response_a(packet)
     handle_google_connection_init(packet)
     handle_dns_query_a(packet)
 
@@ -92,7 +114,7 @@ def init(google_ips, inspect_google_ip):
     global INSPECT_GOOGLE_IP
 
     if not google_ips is None:
-        GOOGLE_IP_ADDRESSES = google_ips
+        GOOGLE_IP_ADDRESSES = set(google_ips)
 
     INSPECT_GOOGLE_IP = inspect_google_ip
 

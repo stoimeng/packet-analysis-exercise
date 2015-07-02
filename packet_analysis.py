@@ -34,11 +34,10 @@ def is_dns_response_a(packet):
     return False
 
 def handle_dns_response_a(packet):
-    if is_dns_response_a(packet):
+    if is_dns_response_a(packet) and packet[DNS].ancount > 0:
         for rr in packet[DNS].an:
             if rr.type == DNS_RESPONSE_TYPE and rr.rrname == GOOGLE_NAME:
                 GOOGLE_IP_ADDRESSES.add(rr.rdata)
-                print GOOGLE_IP_ADDRESSES
 
 def is_google_connection_init(packet):
     if packet.haslayer(TCP):

@@ -8,21 +8,15 @@ logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
 
 from scapy.all import *
 
-__all__ = ['handle_packet', 'print_summary']
+__all__ = ['init', 'handle_packet', 'print_summary']
 
 TCP_FLAG_SYN = 2
 TCP_PORT_HTTP = 80
 DNS_QUERY = 0
 DNS_QUESTION_TYPE = 1
 
-GOOGLE_IP_ADDRESSES = [
-        '64.233.169.105',
-        '64.233.169.106',
-        '64.233.169.147',
-        '64.233.169.99',
-        '64.233.169.103',
-        '64.233.169.104'
-        ]
+INSPECT_GOOGLE_IP = True
+GOOGLE_IP_ADDRESSES = []
 GOOGLE_CONNECTION_INIT_SOURCE_PORTS = set()
 DNS_QUERY_DOMAINS = Counter()
 
@@ -92,6 +86,15 @@ def print_dns_query_a_summary():
         print message_format.format(name, count, float(count) / float(total))
 
     print
+
+def init(google_ips, inspect_google_ip):
+    global GOOGLE_IP_ADDRESSES
+    global INSPECT_GOOGLE_IP
+
+    if not google_ips is None:
+        GOOGLE_IP_ADDRESSES = google_ips
+
+    INSPECT_GOOGLE_IP = inspect_google_ip
 
 def print_summary():
     print_google_connection_init_summary()

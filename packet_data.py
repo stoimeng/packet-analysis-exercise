@@ -84,8 +84,8 @@ class PacketDataClientFactory(protocol.ClientFactory):
 def _clients_done(result):
     reactor.stop()
 
-def run(address, port, connections):
-    data = rdpcap('capture.pcap')
+def run(address, port, connections, file_name):
+    data = rdpcap(file_name)
 
     factory = PacketDataServerFactory(data)
     reactor.listenTCP(port, factory)

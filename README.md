@@ -1,6 +1,6 @@
 # packet-analysis-exercise
 
-Features:
+### Features
 - captured network traffic for 10+ minutes split into the multiple files - capture.pcapX
 - continuous updating of list of 'www.google.com' IP addresses as part of inspecting the packet data
 - collecting information for source ports in connections initiated to www.google.com:80
@@ -11,20 +11,23 @@ Features:
 - obfuscated version of the scripts generated in the corresponding sub-directory
 - specifying the various options from command line as well as documentation of the options through -h option
 
-TODO:
+### TODO
 - others / advanced
 
-Used tehnologies:
+### Used tehnologies
 - Python 2.7.3
 - Twisted 15.2.1
 - scapy 2.3.1
 - pyobfuscate (as a submodule)
 
-Knowns issues and limitations:
+### Knowns issues and limitations
+- GitHub considers files bigger than 50 MB bad practice and also it is not possible to have a file bigger than 100 MB, so the originally created file of size around 230 MB was split into multiple files, which can again be combined into single file
 - running the scripts on the originally generated file (combination of all capture.pcapX files) takes a lot of memory - this is probably due to scapy initial loading of the file which cannot be done lazily by default
 - obfuscation scripts can be run only from within the main solution directory (where the actual obfuscate.py is located)
 
-The command line options can be seen as follows:
+### Examples
+
+#### The command line options of the main solution
 
     $ python main.py -h
     usage: main.py [-h] -f CAPTURE_FILE [-d] [-p PORT] [-c COUNT] [-g IP [IP ...]]
@@ -43,7 +46,7 @@ The command line options can be seen as follows:
       -f CAPTURE_FILE  A file containing traffic captured in PCAP format
 
 
-The results produced by the scripts are as follows:
+#### Results produced by running the main solution
 
     $ python main.py -f capture.pcap4
     List of TCP source ports from connections initiated to www.google.com:80
@@ -97,12 +100,12 @@ The results produced by the scripts are as follows:
 
 
 
-Running the obfuscation can be done only from within the solution directory:
+#### Running the obfuscation - must be done from within the solution directory
 
     $ python obfuscate.py 
 
 
-The obfuscation produces a sub-directory with the main solution files in it obfuscated, e.g.:
+#### Results produced by running the obfuscation solution
 
     $ cat 03072015_001200/main.py 
     #!/usr/bin/env python
